@@ -1,26 +1,37 @@
 <!DOCTYPE html>
-<html>
+<html lang="sw">
 <head>
-    <title>Admin Panel</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin - Salama Skin Scanner</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
+  <div class="container">
     <h1>Admin Panel</h1>
-    <a href="/logout">Logout</a>
 
-    <h2>Pending Payments</h2>
-    <ul>
-        {% for p in payments %}
+    <form method="POST" action="/admin" style="margin-bottom:20px;">
+      <input type="password" name="password" placeholder="Ingiza nenosiri" required style="padding:8px; width:100%; border-radius:6px; margin-bottom:10px;">
+      <button type="submit">Ingia</button>
+    </form>
+
+    {% if authorized %}
+      <h2>Watumiaji Waliosubiri Uthibitisho</h2>
+      {% if pending_users %}
+        <ul>
+          {% for user in pending_users %}
             <li>
-                {{ p.name }} - Approved: {{ 'Yes' if p.approved else 'No' }}
-                {% if not p.approved %}
-                    <form method="post" action="/approve_payment" style="display:inline;">
-                        <input type="hidden" name="name" value="{{ p.name }}">
-                        <button type="submit">Approve</button>
-                    </form>
-                {% endif %}
+              {{ user.name }} - {{ user.time }}
+              <form method="POST" action="/approve/{{ user.id }}" style="display:inline;">
+                <button type="submit">Thibitisha</button>
+              </form>
             </li>
-        {% endfor %}
-    </ul>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p>Hakuna watumiaji waliosubiri.</p>
+      {% endif %}
+    {% endif %}
+  </div>
 </body>
 </html>
-
