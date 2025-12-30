@@ -109,11 +109,32 @@ const scanBtn = document.getElementById("scanBtn");
 const payerNameInput = document.getElementById("payerName");
 
 confirmPayBtn.addEventListener("click", async () => {
-    const name = payerNameInput.value.trim();
-    if(!name){
-        alert("Tafadhali ingiza jina lako");
-        return;
+  const payerName = payerNameInput.value.trim();
+  if (!payerName) {
+    alert("Tafadhali ingiza jina lako kabla ya kulipa.");
+    return;
+  }
+
+  // Send name to backend
+  try {
+    const response = await fetch("/submit_payment", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: new URLSearchParams({ name: payerName })
+    });
+
+    if (response.ok) {
+      alert(`Malipo yamechukuliwa kwa ${payerName}. Subiri uthibitisho wa admin.`);
+      scanBtn.disabled = true;  // Keep scan locked until approved
+    } else {
+      alert("Tatizo limetokea. Jaribu tena.");
     }
+  } catch (err) {
+    console.error(err);
+    alert("Tatizo la mtandao. Angalia console.");
+  }
+});
+
 
     // Send payment submission to server
     await fetch("/submit_payment", {
@@ -139,4 +160,4 @@ confirmPayBtn.addEventListener("click", async () => {
             scanBtn.disabled = false;
         }
     }, 5000); // check every 5 seconds
-});
+

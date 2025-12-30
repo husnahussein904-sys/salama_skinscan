@@ -88,3 +88,13 @@ def approve(user_id):
 
 if __name__ == "__main__":
     app.run(debug=True)
+    pending_payments = []
+
+@app.route("/submit_payment", methods=["POST"])
+def submit_payment():
+    name = request.form.get("name")
+    if name and name not in [u['name'] for u in pending_payments]:
+        pending_payments.append({"name": name, "approved": False})
+        return "ok", 200
+    return "Already submitted or empty", 400
+
