@@ -52,7 +52,7 @@ document.addEventListener("DOMContentLoaded", () => {
             alert("Kuna tatizo. Tafadhali jaribu tena.");
         }
     });
-
+    
     // Scan button click
     scanBtn.addEventListener("click", async () => {
         if (!userApproved) {
@@ -103,4 +103,40 @@ document.addEventListener("DOMContentLoaded", () => {
             alert("Kuna tatizo. Angalia console.");
         }
     });
+});
+const confirmPayBtn = document.getElementById("confirmPayBtn");
+const scanBtn = document.getElementById("scanBtn");
+const payerNameInput = document.getElementById("payerName");
+
+confirmPayBtn.addEventListener("click", async () => {
+    const name = payerNameInput.value.trim();
+    if(!name){
+        alert("Tafadhali ingiza jina lako");
+        return;
+    }
+
+    // Send payment submission to server
+    await fetch("/submit_payment", {
+        method: "POST",
+        body: new URLSearchParams({name: name})
+    });
+
+    // Disable scan button until admin approval
+    scanBtn.disabled = true;
+    alert("Tafadhali subiri uthibitisho wa msimamizi");
+
+    // Check periodically if approved
+    const interval = setInterval(async () => {
+        const res = await fetch("/check_approval", {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({name: name})
+        });
+        const data = await res.json();
+        if(data.approved){
+            clearInterval(interval);
+            alert("Umeidhinishwa! Sasa unaweza kuchambua ngozi yako.");
+            scanBtn.disabled = false;
+        }
+    }, 5000); // check every 5 seconds
 });
