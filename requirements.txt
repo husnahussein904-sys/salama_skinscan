@@ -1,6 +1,2 @@
-Flask==3.2.1
-Werkzeug==2.3.10
-Pillow==10.1.0
-numpy==1.26.1
-torch==2.2.0
-torchvision==0.20.1
+Flask
+gunicorn
