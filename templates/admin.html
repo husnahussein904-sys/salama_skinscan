@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Panel</title>
+</head>
+<body>
+    <h1>Admin Panel</h1>
+    <a href="/logout">Logout</a>
+
+    <h2>Pending Payments</h2>
+    <ul>
+        {% for p in payments %}
+            <li>
+                {{ p.name }} - Approved: {{ 'Yes' if p.approved else 'No' }}
+                {% if not p.approved %}
+                    <form method="post" action="/approve_payment" style="display:inline;">
+                        <input type="hidden" name="name" value="{{ p.name }}">
+                        <button type="submit">Approve</button>
+                    </form>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
+

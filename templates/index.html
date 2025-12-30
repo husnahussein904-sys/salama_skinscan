@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Salama Skin Scanner</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="container">
+    <h1>Chambua Ngozi Salama</h1>
+
+    <!-- File input -->
+    <input type="file" id="skinImage" accept="image/*">
+
+    <!-- Scan button -->
+    <button id="scanBtn">Chambua Ngozi</button>
+
+    <!-- Payment box -->
+    <div id="paymentBox" class="payment-box">
+        <h3 id="payTitle">Lipa Ili Kuchambua Ngozi</h3>
+        <p id="payText">Lipa <strong>1,000 TZS</strong> kwa:</p>
+        <ul class="pay-list">
+            <li>📱 Vodacom M-Pesa: <strong>0750902836</strong></li>
+            <li>📱 Halotel HaloPesa: <strong>0618922836</strong></li>
+        </ul>
+        <p id="payNote">Tumia jina lako vile linavyoonekana kwenye Mpesa/HaloPesa wakati wa kulipa</p>
+        <br>
+         <input type="text" id="payerName" placeholder="Ingiza jina lako" required>
+<button id="confirmPayBtn">NIMELIPA</button>
+
+    </div>
+
+    <!-- Results -->
+    <div id="results">
+        <div class="result-box" id="acne">Chunusi: -</div>
+        <div class="result-box" id="wrinkles">Mikunjo: -</div>
+        <div class="result-box" id="hydration">Unyevu: -</div>
+        <div class="result-box" id="elasticity">Unyumbufu: -</div>
+        <div class="result-box" id="darkspots">Madoa Meusi: -</div>
+    </div>
+</div>
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
