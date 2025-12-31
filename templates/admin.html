@@ -1,34 +1,50 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Admin Panel</title>
+<meta charset="UTF-8">
+<title>Admin Panel</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <h2>Pending Payments</h2>
-    <ul id="paymentList">
-        {% for user in payments %}
-            <li>
-                {{ user.name }} - Approved: {{ user.approved }}
-                {% if not user.approved %}
-                    <button onclick="approve('{{ user.name }}')">Approve</button>
-                {% endif %}
-            </li>
-        {% endfor %}
-    </ul>
+<div class="container">
+<h1>Admin Panel</h1>
 
-    <script>
-        function approve(name){
-            fetch('/approve_payment', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({name: name})
-            }).then(res => res.json()).then(data => {
-                if(data.status === 'approved'){
-                    alert(name + ' has been approved!');
-                    location.reload();
-                }
-            });
+{% if not authorized %}
+<form method="POST">
+    <input type="password" name="password" placeholder="Enter admin password" required>
+    <button type="submit">Login</button>
+</form>
+{% else %}
+<ul class="admin-box">
+{% for u in users %}
+    <li>{{ u.name }} - Approved: {{ u.approved }}
+        {% if not u.approved %}
+            <button onclick="approve('{{ u.name }}')">Approve</button>
+        {% endif %}
+    </li>
+{% endfor %}
+</ul>
+{% endif %}
+</div>
+
+<script>
+function approve(name){
+    fetch("/approve_payment", {
+        method:"POST",
+        headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({name})
+    })
+    .then(res => res.json())
+    .then(data => {
+        if(data.status === "approved"){
+            alert(name + " ameidhinishwa!");
+            location.reload();
+        } else {
+            alert("Jina halijapatikana");
         }
-    </script>
+    });
+}
+</script>
 </body>
 </html>
+

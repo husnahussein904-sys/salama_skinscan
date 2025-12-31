@@ -10,7 +10,8 @@ body {
     min-height: 100vh;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
+    padding-top: 40px;
 }
 
 .container {
@@ -28,17 +29,18 @@ h1 {
     margin-bottom: 20px;
 }
 
-input[type="file"] {
-    width: 300%;
+input[type="file"], input[type="text"], input[type="password"] {
+    width: 90%;
     padding: 10px;
+    margin-bottom: 15px;
     border: 2px dashed #ff69b4;
     border-radius: 12px;
     background-color: #fff5fa;
-    margin-bottom: 15px;
+    font-size: 14px;
 }
 
 button {
-    width: 100%;
+    width: 95%;
     padding: 12px;
     background-color: #ff69b4;
     color: white;
@@ -64,119 +66,76 @@ button:hover {
     color: #8b0055;
 }
 
-.advice-box {
-    background-color: #ffe0f0;
-    border-left: 4px solid #ff69b4;
-    border-radius: 8px;
-    padding: 10px;
-    margin-bottom: 10px;
-    font-size: 14px;
-    color: #550033;
-}
-.payment-box {
-  border: 2px solid hotpink;
-  background: #fff0f6;
-  padding: 16px;
-  border-radius: 12px;
-  margin-bottom: 20px;
-}
-
-.payment-box h3 {
-  color: #c2185b;
-  margin-bottom: 8px;
-}
-
-.pay-list {
-  list-style: none;
-  padding: 0;
-}
-
-.pay-list li {
-  margin: 6px 0;
-  font-weight: 500;
-}
-.pay-list {
-    margin-bottom: 16px; /* space between the list and the paragraph below */
-}
-
-.pay-list li {
-    margin-bottom: 8px;   /* space between each phone number item */
-    word-spacing: 4px;    /* optional: space between words in the phone numbers */
-}
-
-.payment-box p {
-    margin-top: 12px;     /* space between the list and this paragraph */
-    line-height: 1.5;     /* makes the text easier to read */
-}
-
-
-.payment-box button {
-  background: hotpink;
-  color: white;
-  border: none;
-  padding: 10px 16px;
-  border-radius: 10px;
-  cursor: pointer;
-  font-size: 15px;
-}
-
-.payment-box button:hover {
-  opacity: 0.9;
-}
 .why-pay-box {
-  background: #ffffff;
-  border-left: 4px solid hotpink;
-  padding: 14px;
-  border-radius: 8px;
-  margin-bottom: 20px;
+    background: #ffffff;
+    border-left: 4px solid hotpink;
+    padding: 14px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    text-align: left;
 }
 
 .why-pay-box h4 {
-  margin-bottom: 8px;
-  color: #c2185b;
+    margin-bottom: 8px;
+    color: #c2185b;
 }
 
 .why-pay-box ul {
-  padding-left: 18px;
-  margin: 0;
+    padding-left: 18px;
+    margin: 0;
 }
 
 .why-pay-box li {
-  margin-bottom: 6px;
-  font-size: 14px;
+    margin-bottom: 6px;
+    font-size: 14px;
 }
+
 .admin-box {
-  background: #fff;
-  border: 2px dashed hotpink;
-  padding: 12px;
-  border-radius: 10px;
-  margin-top: 20px;
-  text-align: left;
-}
-
-.admin-box h4 {
-  color: #c2185b;
-  margin-bottom: 10px;
-}
-
-.admin-box ul {
-  list-style: none;
-  padding: 0;
+    background: #fff;
+    border: 2px dashed hotpink;
+    padding: 12px;
+    border-radius: 10px;
+    margin-top: 20px;
+    text-align: left;
 }
 
 .admin-box li {
-  margin-bottom: 8px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+    margin-bottom: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .admin-box button {
-  background: green;
-  color: white;
-  border: none;
-  padding: 5px 10px;
-  border-radius: 6px;
-  cursor: pointer;
+    background: green;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+.payment-box {
+    border: 2px solid hotpink;
+    background: #fff0f6;
+    padding: 16px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.payment-box h3 {
+    color: #c2185b;
+    margin-bottom: 8px;
+}
+
+.pay-list {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 12px;
+}
+
+.pay-list li {
+    margin-bottom: 6px;
+    font-weight: 500;
 }
 

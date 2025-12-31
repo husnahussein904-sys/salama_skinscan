@@ -1,16 +1,11 @@
-from flask import Flask, render_template, request, redirect, url_for, jsonify
-from datetime import datetime
+from flask import Flask, render_template, request, jsonify
 
 app = Flask(__name__)
 
-# Simple in-memory store for pending users
-pending_users = []
-next_id = 1
-ADMIN_PASSWORD = "1234"  # Change this to a strong password
+users = []
 
-# Dummy function to simulate skin analysis
-def analyze_skin(image_file):
-    # Replace this with your real AI model if available
+# Skin analysis + advice
+def analyze_skin(image):
     result = {
         "acne": "10%",
         "wrinkles": "5%",
@@ -19,54 +14,38 @@ def analyze_skin(image_file):
         "darkspots": "3%"
     }
     advice = {
-        "acne": "Ngozi yako inaweza kuwa yenye chunusi. Osha uso kwa upole mara mbili kwa siku, epuka mafuta mazito.",
-        "wrinkles": "Ngozi yako inaweza kuonyesha alama za mwanzo za mikunjo. Tumia moisturizer na sunscreen.",
-        "hydration": "Unyevu ni mzuri. Endelea na utunzaji wako.",
-        "elasticity": "Unyumbufu ni mzuri.",
-        "darkspots": "Madoa meusi ni machache."
+        "acne": "Ngozi yako inaweza kuwa na chunusi. Osha uso kwa upole mara mbili kwa siku, epuka mafuta mazito.",
+        "wrinkles": "Mikunjo ni midogo. Tumia moisturizer na sunscreen.",
+        "hydration": "Ngozi yako ina unyevu mzuri. Endelea na utunzaji wako.",
+        "elasticity": "Ngozi yako ni nyumbufu vizuri.",
+        "darkspots": "Madoa meusi ni machache. Tumia cream yenye utunzaji wa madoa."
     }
     return result, advice
+
+ADMIN_PASSWORD = "1234"
 
 @app.route("/")
 def index():
     return render_template("index.html")
 
-# Endpoint for scan
+@app.route("/submit_payment", methods=["POST"])
+def submit_payment():
+    name = request.form.get("name")
+    if not name:
+        return "Jina linahitajika", 400
+    if not any(u["name"]==name for u in users):
+        users.append({"name": name, "approved": False})
+    return "ok", 200
+
 @app.route("/scan_skin", methods=["POST"])
 def scan_skin():
-    global next_id
-
     name = request.form.get("name")
-    image_file = request.files.get("image")
+    user = next((u for u in users if u["name"]==name), None)
+    if not user or not user["approved"]:
+        return jsonify({"pending": True, "message": "Malipo bado hayajaidhinishwa na admin"})
+    result, advice = analyze_skin(None)
+    return jsonify({"pending": False, "result": result, "advice": advice})
 
-    if not name or not image_file:
-        return jsonify({"error": "Jina na picha lazima zipatikane"}), 400
-
-    # Check if user is already approved
-    approved_user = None
-    for user in pending_users:
-        if user["name"] == name and user.get("approved"):
-            approved_user = user
-            break
-
-    if approved_user:
-        # Perform scan
-        result, advice = analyze_skin(image_file)
-        return jsonify({"result": result, "advice": advice, "pending": False})
-    else:
-        # Add to pending list if not exists
-        exists = any(u["name"] == name for u in pending_users)
-        if not exists:
-            pending_users.append({
-                "id": next_id,
-                "name": name,
-                "time": datetime.now().strftime("%Y-%m-%d %H:%M"),
-                "approved": False
-            })
-            next_id += 1
-        return jsonify({"pending": True})
-
-# Admin page
 @app.route("/admin", methods=["GET", "POST"])
 def admin():
     authorized = False
@@ -74,27 +53,17 @@ def admin():
         password = request.form.get("password")
         if password == ADMIN_PASSWORD:
             authorized = True
-    return render_template("admin.html", authorized=authorized, pending_users=pending_users)
+    return render_template("admin.html", users=users, authorized=authorized)
 
-# Approve a user
-@app.route("/approve/<int:user_id>", methods=["POST"])
-def approve(user_id):
-    global pending_users
-    for user in pending_users:
-        if user["id"] == user_id:
-            user["approved"] = True
-            break
-    return redirect(url_for("admin"))
+@app.route("/approve_payment", methods=["POST"])
+def approve_payment():
+    data = request.get_json()
+    name = data.get("name")
+    user = next((u for u in users if u["name"]==name), None)
+    if user:
+        user["approved"] = True
+        return jsonify({"status": "approved"})
+    return jsonify({"status": "not_found"}), 404
 
 if __name__ == "__main__":
     app.run(debug=True)
-    pending_payments = []
-
-@app.route("/submit_payment", methods=["POST"])
-def submit_payment():
-    name = request.form.get("name")
-    if name and name not in [u['name'] for u in pending_payments]:
-        pending_payments.append({"name": name, "approved": False})
-        return "ok", 200
-    return "Already submitted or empty", 400
-

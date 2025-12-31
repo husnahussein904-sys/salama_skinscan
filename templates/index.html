@@ -1,68 +1,47 @@
 <!DOCTYPE html>
 <html lang="sw">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Salama Skin Scanner</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Salama Skin Scanner</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
 <div class="container">
     <h1>Chambua Ngozi Salama</h1>
 
-    <!-- File input -->
-    <input type="file" id="skinImage" accept="image/*">
-
-    <!-- Scan button -->
-    <button id="scanBtn">Chambua Ngozi</button>
-
-    <!-- Payment box -->
-    <div id="paymentBox" class="payment-box">
-        <h3 id="payTitle">Lipa Ili Kuchambua Ngozi</h3>
-        <p id="payText">Lipa <strong>1,000 TZS</strong> kwa:</p>
+    <!-- Payment instructions -->
+    <div class="payment-box">
+        <h3>Lipa Ili Kuchambua Ngozi</h3>
+        <p>Lipa <strong>1,000 TZS</strong> kwa njia hizi:</p>
         <ul class="pay-list">
             <li>📱 Vodacom M-Pesa: <strong>0750902836</strong></li>
             <li>📱 Halotel HaloPesa: <strong>0618922836</strong></li>
         </ul>
-        
-        <p>Tumia M-Pesa au HaloPesa kulipa TZS 1,000. jina la malipo ni husna hussein.</p>
-        
-        
-
-<p>Baada ya kulipa, subiri uthibitisho wa msimamizi kabla ya kuchambua picha yako.</p>
-<p id="payNote">ingiza jina lako vile linavyoonekana kwenye Mpesa/HaloPesa wakati wa kulipa ili kuthibitisha malipo</p>
-        
-
+        <p>Tumia M-Pesa au HaloPesa kulipa TZS 1,000. Jina la malipo: husna hussein.</p>
         <br>
-         <input type="text" id="payerName" placeholder="Ingiza jina lako" required>
-<button id="confirmPayBtn">NIMELIPA</button>
+        <p>kisha weka jina unalotumia mpesa/halopesa ili kuthibitisha malipo</p>
+        <br> baada ya kuweka jina utabonyeza nimelipa weka picha ya ngozi yako ili uweze kupata matokeo ya ngozi yako</p>
 
+        <input type="text" id="payerName" placeholder="Ingiza jina lako kama ilivyo kwenye Mpesa/HaloPesa"><br>
+        <button id="confirmPayBtn">NIMELIPA</button>
     </div>
-<!-- Why pay info -->
+
+    <input type="file" id="skinImage"><br>
+    <button id="scanBtn" disabled>Chambua Ngozi</button>
+
     <div class="why-pay-box">
         <h4>Kwanini ulipe?</h4>
         <ul>
             <li>Uchambuzi wa ngozi kwa AI hutumia rasilimali za kompyuta</li>
-            <li>Unapata taarifa binafsi na za ndani kuhusu Ngozi yako</li>
+            <li>Unapata taarifa binafsi na za ndani kuhusu ngozi yako</li>
             <li>Malipo husaidia kuboresha na kudumisha huduma</li>
-           
         </ul>
     </div>
 
-
-
-    <!-- Results -->
-    <div id="results">
-        <div class="result-box" id="acne">Chunusi: -</div>
-        <div class="result-box" id="wrinkles">Mikunjo: -</div>
-        <div class="result-box" id="hydration">Unyevu: -</div>
-        <div class="result-box" id="elasticity">Unyumbufu: -</div>
-        <div class="result-box" id="darkspots">Madoa Meusi: -</div>
-    </div>
+    <div id="results"></div>
 </div>
 
 <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>
-
-
